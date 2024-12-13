@@ -7,38 +7,19 @@ import SearchInput from "../../components/SearchInput";
 import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
 import {getAllPosts} from "../../lib/appwrite";
+import useAppwrite from "../../lib/useAppwrite";
 
 const Home = () => {
-
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-
-            try {
-                const response = await getAllPosts();
-
-                setData(response);
-
-            } catch (error) {
-                Alert.alert('Error',error.message);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        fetchData();
-    }, []);
-
-    console.log(data);
+    const {data: posts, refetch} = useAppwrite(getAllPosts);
 
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = async () => {
         setRefreshing(true);
-        //re call videos -> if any new videos appear
+        await refetch();
         setRefreshing(false);
     }
+
+    console.log(posts);
     return (
         <SafeAreaView className="bg-primary h-full">
             <FlatList
@@ -46,7 +27,7 @@ const Home = () => {
                 //data={[]}
                 keyExtractor={(item) => item.$id}
                 renderItem={({item}) => (
-                    <Text className="text-3xl text-white">{item.id}</Text>
+                    <Text className="text-3xl text-white">{item.title}</Text>
                 )}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4 space-y-6">
