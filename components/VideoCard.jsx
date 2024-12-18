@@ -4,7 +4,7 @@ import {icons} from "../constants";
 import {ResizeMode, Video} from "expo-av";
 
 const VideoCard = ( {video : {title, thumbnail, video,
-    creator}}) => {
+    creator:{username, avatar}}}) => {
     const [play, setPlay] = useState(false);
     return (
         <View className='flex-col items-center px-4 mb-14'>
@@ -13,8 +13,8 @@ const VideoCard = ( {video : {title, thumbnail, video,
                 flex-row flex-1">
                     <View className="w-[46px] h-[46px] rounded-lg
                     border border-secondary justify-center items-center p-0.5">
-                        {/*//<Image source={} className="w-full h-full rounded-lg"*/}
-                        {/*       resizeMode='cover'/>*/}
+                        <Image source={{uri: avatar}} className="w-full h-full rounded-lg"
+                               resizeMode='cover'/>
                     </View>
                     <View className="justify-center flex-1 ml-3 gap-y-1">
                         <Text className="text-white font-psemibold
@@ -22,7 +22,7 @@ const VideoCard = ( {video : {title, thumbnail, video,
                             {title}
                         </Text>
                         <Text className="text-xs text-gray-100 font-pregular">
-                            username
+                            {username}
                         </Text>
                     </View>
                 </View>
