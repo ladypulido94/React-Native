@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "package": "com.lpm.aora",
+      "package": "com.lpm.aora"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +28,13 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      ["expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ]
     ]
   }
 }
