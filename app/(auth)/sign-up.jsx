@@ -6,7 +6,7 @@ import { images } from '../../constants';
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import {Link, router} from "expo-router";
-import {createUser, SignIn} from "../../lib/appwrite";
+import {createUser, signIn} from "../../lib/appwrite";
 import {useGlobalContext} from "../../context/GlobalProvider";
 
 const SignUp = () => {
@@ -22,6 +22,7 @@ const SignUp = () => {
     const submit = async () => {
         if(!form.username || !form.email || !form.password){
             Alert.alert('Error','Please fill in all the fields');
+            console.log('This is a test');
         }
 
         setIsSubmitting(true);
@@ -34,6 +35,7 @@ const SignUp = () => {
             router.replace('/home')
         } catch (error){
             Alert.alert('Error',error.message);
+            console.log('This is a second test');
         } finally {
             setIsSubmitting(false)
         }
