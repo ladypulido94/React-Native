@@ -10,6 +10,7 @@ import * as ImagePicker from 'expo-image-picker'
 import {router} from "expo-router";
 import {createVideo} from "../../lib/appwrite";
 import {useGlobalContext} from "../../context/GlobalProvider";
+import {VideoView} from "expo-video";
 
 const Create = () => {
     const { user } = useGlobalContext();
@@ -87,10 +88,22 @@ const Create = () => {
                     </Text>
                     <TouchableOpacity onPress={() => openPicker('video')} >
                         {form.video ? (
-                            <Video
-                                source={{uri: form.video.uri}}
-                                className="w-full h-64 rounded-2xl"
-                                resizeMode={ResizeMode.COVER}
+                            <VideoView
+                                player={[
+                                    {
+                                        uri: form.video.uri, // Set the URI of the video
+                                        shouldPlay: true, // Auto-play the video
+                                    },
+                                ]}
+                                style={{
+                                    width: '100%',
+                                    height: 256,
+                                    borderRadius: 16,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.1)'
+                                }}
+                                resizeMode="contain" // Set resize mode
+                                isPlaying={true} // Ensure video starts playing
+                                useNativeControls // Display video controls
                             />
                         ) :(
                             <View className="w-full h-40 px-4

@@ -1,8 +1,8 @@
-import {View, Text, FlatList, TouchableOpacity, ImageBackground, Image} from 'react-native'
+import {FlatList, TouchableOpacity, ImageBackground, Image} from 'react-native'
 import React, {useState} from 'react'
 import * as Animatable from 'react-native-animatable'
 import {icons} from "../constants";
-import { Video, ResizeMode } from 'expo-av';
+import {useVideoPlayer, VideoView} from "expo-video";
 
 const zoomIn = {
     0: {
@@ -24,6 +24,13 @@ const zoomOut = {
 
 const TrendingItem = ({activeItem, item}) => {
     const [play, setPlay] = useState(false);
+    const videoSource = {uri : item.video}
+    //console.log('Videosource', videoSource)
+
+    const player = useVideoPlayer(videoSource, player => {
+        player.loop = true;
+        player.play();
+    });
     
     return (
         <Animatable.View
@@ -31,18 +38,12 @@ const TrendingItem = ({activeItem, item}) => {
         animation={activeItem === item.$id ? zoomIn : zoomOut}
         duration={500}>
             {play ? (
-                <Video
-                source={{uri: item.video}}
-                className="w-52 h-72 rounded-[33px] mt-3
-                bg-white/10"
-                resizeMode={ResizeMode.CONTAIN}
-                useNativeControls
-                shouldPlay
-                onPlaybackStatusUpdate={(status) => {
-                    if(status.didJustFinish) {
-                        setPlay(false);
-                    }
-                }}
+                <VideoView
+                    player={player}
+                    style={{ width: 208, height: 288, borderRadius: 33, marginTop: 12, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                    resizeMode="contain"
+                    useNativeControls
+                    onPlaybackFinish={() => setPlay(false)}
                 />
             ): (
                 <TouchableOpacity className="relative justify-center items-center"
